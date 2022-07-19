@@ -14,24 +14,6 @@ fn main() {
                 .short_flag('d')
                 .long_flag("dump")
                 .about("Dump sql scripts from database")
-                .arg(
-                    Arg::new("search")
-                        .short('s')
-                        .long("search")
-                        .help("search locally installed packages for matching strings")
-                        .conflicts_with("info")
-                        .takes_value(true)
-                        .multiple_values(true),
-                )
-                .arg(
-                    Arg::new("info")
-                        .long("info")
-                        .short('i')
-                        .conflicts_with("search")
-                        .help("view package information")
-                        .takes_value(true)
-                        .multiple_values(true),
-                ),
         )
         // Sync subcommand
         //
@@ -41,30 +23,6 @@ fn main() {
                 .short_flag('S')
                 .long_flag("sync")
                 .about("Synchronize packages.")
-                .arg(
-                    Arg::new("search")
-                        .short('s')
-                        .long("search")
-                        .conflicts_with("info")
-                        .takes_value(true)
-                        .multiple_values(true)
-                        .help("search remote repositories for matching strings"),
-                )
-                .arg(
-                    Arg::new("info")
-                        .long("info")
-                        .conflicts_with("search")
-                        .short('i')
-                        .action(ArgAction::SetTrue)
-                        .help("view package information"),
-                )
-                .arg(
-                    Arg::new("package")
-                        .help("packages")
-                        .required_unless_present("search")
-                        .takes_value(true)
-                        .multiple_values(true),
-                ),
         )
         .get_matches();
 
@@ -98,15 +56,8 @@ fn main() {
             }
         }
         Some(("query", query_matches)) => {
-            if let Some(packages) = query_matches.get_many::<String>("info") {
-                let comma_sep = packages.map(|s| s.as_str()).collect::<Vec<_>>().join(", ");
-                println!("Retrieving info for {}...", comma_sep);
-            } else if let Some(queries) = query_matches.get_many::<String>("search") {
-                let comma_sep = queries.map(|s| s.as_str()).collect::<Vec<_>>().join(", ");
-                println!("Searching Locally for {}...", comma_sep);
-            } else {
-                println!("Displaying all locally installed packages...");
-            }
+
+
         }
         _ => unreachable!(), // If all subcommands are defined above, anything else is unreachable
     }

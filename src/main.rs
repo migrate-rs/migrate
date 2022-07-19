@@ -6,7 +6,7 @@ fn main() {
         .version("v0.0.1")
         .subcommand_required(true)
         .arg_required_else_help(true)
-        // Query subcommand
+        // Dump subcommand
         //
         // Only a few of its arguments are implemented below.
         .subcommand(
@@ -15,7 +15,7 @@ fn main() {
                 .long_flag("dump")
                 .about("Dump sql scripts from database.")
         )
-        // Sync subcommand
+        // Compare subcommand
         //
         // Only a few of its arguments are implemented below.
         .subcommand(
@@ -27,13 +27,8 @@ fn main() {
         .get_matches();
 
     match matches.subcommand() {
-        Some(("dump", sync_matches)) => {
-
-        }
-        Some(("compare", query_matches)) => {
-
-
-        }
+        Some(("dump", sync_matches)) => {}
+        Some(("compare", query_matches)) => {}
         _ => unreachable!(),
     }
 }

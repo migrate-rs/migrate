@@ -27,8 +27,8 @@ fn main() {
         .get_matches();
 
     match matches.subcommand() {
-        Some(("dump", sync_matches)) => {}
-        Some(("compare", query_matches)) => {}
+        Some(("dump", dump_matches)) => {}
+        Some(("compare", compare_matches)) => {}
         _ => unreachable!(),
     }
 }

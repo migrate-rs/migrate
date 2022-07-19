@@ -13,52 +13,27 @@ fn main() {
             Command::new("dump")
                 .short_flag('d')
                 .long_flag("dump")
-                .about("Dump sql scripts from database")
+                .about("Dump sql scripts from database.")
         )
         // Sync subcommand
         //
         // Only a few of its arguments are implemented below.
         .subcommand(
-            Command::new("sync")
-                .short_flag('S')
-                .long_flag("sync")
-                .about("Synchronize packages.")
+            Command::new("compare")
+                .short_flag('c')
+                .long_flag("compare")
+                .about("Compare sql scripts from database.")
         )
         .get_matches();
 
     match matches.subcommand() {
-        Some(("sync", sync_matches)) => {
-            if sync_matches.contains_id("search") {
-                let packages: Vec<_> = sync_matches
-                    .get_many::<String>("search")
-                    .expect("contains_id")
-                    .map(|s| s.as_str())
-                    .collect();
-                let values = packages.join(", ");
-                println!("Searching for {}...", values);
-                return;
-            }
+        Some(("dump", sync_matches)) => {
 
-            let packages: Vec<_> = sync_matches
-                .get_many::<String>("package")
-                .expect("is present")
-                .map(|s| s.as_str())
-                .collect();
-            let values = packages.join(", ");
-
-            if *sync_matches
-                .get_one::<bool>("info")
-                .expect("defaulted by clap")
-            {
-                println!("Retrieving info for {}...", values);
-            } else {
-                println!("Installing {}...", values);
-            }
         }
-        Some(("query", query_matches)) => {
+        Some(("compare", query_matches)) => {
 
 
         }
-        _ => unreachable!(), // If all subcommands are defined above, anything else is unreachable
+        _ => unreachable!(),
     }
 }
